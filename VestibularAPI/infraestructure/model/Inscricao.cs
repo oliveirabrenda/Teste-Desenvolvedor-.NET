@@ -17,17 +17,18 @@ public class Inscricao : BaseEntity{
     [Column("IdCandidato")]
     [ForeignKey("Candidato")]
     public Guid IdCandidato { get; set; }
-    public Candidato Candidato { get; set; } = new Candidato();
+
+    public Candidato? Candidato { get; set; } = null;
 
     [Column("IdProcessoSeletivo")]
     [ForeignKey("ProcessoSeletivo")]
     public Guid IdProcessoSeletivo { get; set; }
     
-    public ProcessoSeletivo ProcessoSeletivo { get; set; } = new ProcessoSeletivo();
+    public ProcessoSeletivo? ProcessoSeletivo { get; set; } = null;
 
     [Column("IdCurso")]
     [ForeignKey("Curso")]
     public Guid IdCurso { get; set; }
     
-    public Curso Curso { get; set; } = new Curso();
+    public Curso? Curso { get; set; } = null;
 }

@@ -12,8 +12,9 @@ public class MappingConfig{
         var mappingConfiguration = new MapperConfiguration(config => {
 
             config.CreateMap<Candidato, CandidatoDto>().ReverseMap();
-            
-            
+            config.CreateMap<Curso, CursoDto>().ReverseMap();
+            config.CreateMap<Inscricao, InscricaoDto>().ReverseMap();
+            config.CreateMap<ProcessoSeletivo, ProcessoSeletivoDto>().ReverseMap();
         });
 
         return mappingConfiguration;

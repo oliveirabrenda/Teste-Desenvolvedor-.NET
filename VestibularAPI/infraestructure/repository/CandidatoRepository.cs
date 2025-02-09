@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using VestibularAPI.infraestructure.model;
 using VestibularAPI.infraestructure.model.context;
 

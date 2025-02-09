@@ -12,12 +12,14 @@ namespace VestibularAPI.Controllers;
 public class InscricaoController : ControllerBase
 {
     private readonly IInscricaoRepository _inscricaoRepository;
+    private readonly ICandidatoRepository _candidatoRepository;
     private readonly IMapper _mapper;
 
-    public InscricaoController(IInscricaoRepository inscricaoRepository, IMapper mapper)
+    public InscricaoController(IInscricaoRepository inscricaoRepository, IMapper mapper, ICandidatoRepository candidatoRepository)
     {
         _inscricaoRepository = inscricaoRepository;
         _mapper = mapper;
+        _candidatoRepository = candidatoRepository;
     }
 
     [HttpGet(Name = "GetInscricoes")]
@@ -58,11 +60,21 @@ public class InscricaoController : ControllerBase
     [HttpGet("cpf/{cpf}")]
     public IActionResult GetByCpf(string cpf)
     {
-        var inscricoes = _inscricaoRepository.GetByCpf(cpf);
-        if (inscricoes == null || inscricoes.Count == 0)
+
+        var canditato = _candidatoRepository.FindAll().FirstOrDefault(x => x.Cpf == cpf);
+        
+        if (canditato == null)
         {
             return NotFound("Nenhuma inscrição encontrada para esse CPF.");
         }
+
+        var inscricoes = _inscricaoRepository.FindAll().ToList().Where(x => x.IdCandidato.Equals(canditato.Id));
+
+        if (inscricoes == null || inscricoes.Count() == 0)
+        {
+            return NotFound("Nenhuma inscrição encontrada para esse CPF.");
+        }
+
         return Ok(_mapper.Map<List<InscricaoDto>>(inscricoes));
     }
 
@@ -70,7 +82,8 @@ public class InscricaoController : ControllerBase
     [HttpGet("curso/{cursoId}")]
     public IActionResult GetByCurso(Guid cursoId)
     {
-        var inscricoes = _inscricaoRepository.GetByCurso(cursoId);
+        var inscricoes = _inscricaoRepository.FindAll().Where(x => x.IdCurso == cursoId).ToList();
+
         if (inscricoes == null || inscricoes.Count == 0)
         {
             return NotFound("Nenhuma inscrição encontrada para esse curso.");
