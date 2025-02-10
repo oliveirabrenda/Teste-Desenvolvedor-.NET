@@ -54,9 +54,6 @@ public class InscricaoController : ControllerBase
         return _inscricaoRepository.Delete(id);
     }
 
-    //GPT QUE DEU ISSO
-
-    //  Buscar inscrições por CPF (agora retornando DTOs)
     [HttpGet("cpf/{cpf}")]
     public IActionResult GetByCpf(string cpf)
     {
@@ -78,7 +75,6 @@ public class InscricaoController : ControllerBase
         return Ok(_mapper.Map<List<InscricaoDto>>(inscricoes));
     }
 
-    //  Buscar inscrições por Curso (Oferta)
     [HttpGet("curso/{cursoId}")]
     public IActionResult GetByCurso(Guid cursoId)
     {
